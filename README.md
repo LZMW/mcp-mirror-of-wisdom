@@ -260,7 +260,7 @@ mcp-mirror-of-wisdom/
 
 ## 📄 许可证
 
-MIT License
+mcp-mirror-of-wisdom 双重许可协议
 
 ---
 
