@@ -1,0 +1,55 @@
+{
+  "$schema": "./config.schema.json",
+  "_comment": "求知镜 MCP 配置文件 - 修改后自动生效，无需重启服务",
+
+  "llm": {
+    "api_url": "https://api.anthropic.com/v1/messages",
+    "api_key": "sk-ant-your-api-key-here",
+    "model": "claude-sonnet-4-5-20250129",
+    "timeout": 30,
+    "max_retries": 3,
+    "retry_delay": 1
+  },
+
+  "server": {
+    "host": "localhost",
+    "port": 8000,
+    "log_level": "INFO"
+  },
+
+  "features": {
+    "enable_role_switching": true,
+    "enable_session_persistence": true,
+    "enable_config_reload": true,
+    "max_session_duration_hours": 24,
+    "max_conversation_history": 50,
+    "enable_context_compression": true
+  },
+
+  "prompt_generation": {
+    "fixed_format_path": "./prompts/expert_template.md",
+    "generation_flow_prompt_path": "./prompts/generation_flow.md",
+    "use_hybrid_mode": true,
+    "quality_threshold": 0.8,
+    "enable_self_check": true
+  },
+
+  "session": {
+    "signature_algorithm": "sha256",
+    "token_expiry_minutes": 60,
+    "max_role_switches": 10,
+    "context_summary_threshold": 1000
+  },
+
+  "security": {
+    "enable_signature_validation": true,
+    "timestamp_tolerance_seconds": 300,
+    "enable_rate_limiting": false
+  },
+
+  "monitoring": {
+    "enable_metrics": true,
+    "enable_tracing": false,
+    "log_conversation_samples": false
+  }
+}

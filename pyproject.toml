@@ -1,0 +1,65 @@
+[project]
+name = "mirror-of-wisdom-mcp"
+version = "0.1.0"
+description = "求知镜 MCP - 动态专家角色生成与对话系统"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=0.9.0",
+    "pydantic>=2.0.0",
+    "python-dotenv>=1.0.0",
+    "openai>=1.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-cov>=4.0.0",
+]
+
+anthropic = [
+    "anthropic>=0.18.0",
+]
+
+zhipu = [
+    "zhipuai>=2.0.0",
+]
+
+gemini = [
+    "google-generativeai>=0.3.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+mirror-of-wisdom = "mirror_of_wisdom.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/mirror_of_wisdom"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "B"]
+ignore = ["E501"]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+]

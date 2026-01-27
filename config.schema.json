@@ -1,0 +1,220 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "求知镜 MCP 配置文件 Schema",
+  "type": "object",
+  "required": ["llm", "server", "features"],
+
+  "properties": {
+    "llm": {
+      "type": "object",
+      "description": "LLM API 配置",
+      "required": ["api_url", "api_key", "model"],
+      "properties": {
+        "api_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "LLM API 端点 URL"
+        },
+        "api_key": {
+          "type": "string",
+          "description": "API 密钥"
+        },
+        "model": {
+          "type": "string",
+          "description": "模型名称"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 30,
+          "description": "请求超时时间（秒）"
+        },
+        "max_retries": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 3,
+          "description": "最大重试次数"
+        },
+        "retry_delay": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 1,
+          "description": "重试延迟（秒）"
+        }
+      }
+    },
+
+    "server": {
+      "type": "object",
+      "description": "MCP 服务器配置",
+      "required": ["host", "port"],
+      "properties": {
+        "host": {
+          "type": "string",
+          "default": "localhost",
+          "description": "服务器监听地址"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535,
+          "default": 8000,
+          "description": "服务器监听端口"
+        },
+        "log_level": {
+          "type": "string",
+          "enum": ["DEBUG", "INFO", "WARNING", "ERROR"],
+          "default": "INFO",
+          "description": "日志级别"
+        }
+      }
+    },
+
+    "features": {
+      "type": "object",
+      "description": "功能开关",
+      "properties": {
+        "enable_role_switching": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用角色切换功能"
+        },
+        "enable_session_persistence": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用会话持久化"
+        },
+        "enable_config_reload": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用配置热重载"
+        },
+        "max_session_duration_hours": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 24,
+          "description": "会话最大时长（小时）"
+        },
+        "max_conversation_history": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 50,
+          "description": "最大对话历史条数"
+        },
+        "enable_context_compression": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用上下文压缩"
+        }
+      }
+    },
+
+    "prompt_generation": {
+      "type": "object",
+      "description": "提示词生成配置",
+      "properties": {
+        "fixed_format_path": {
+          "type": "string",
+          "description": "固定格式模板文件路径"
+        },
+        "generation_flow_prompt_path": {
+          "type": "string",
+          "description": "生成流程提示词文件路径"
+        },
+        "use_hybrid_mode": {
+          "type": "boolean",
+          "default": true,
+          "description": "使用混合模式生成"
+        },
+        "quality_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0.8,
+          "description": "质量阈值"
+        },
+        "enable_self_check": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用质量自检"
+        }
+      }
+    },
+
+    "session": {
+      "type": "object",
+      "description": "会话管理配置",
+      "properties": {
+        "signature_algorithm": {
+          "type": "string",
+          "enum": ["sha256", "sha512"],
+          "default": "sha256",
+          "description": "签名算法"
+        },
+        "token_expiry_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 60,
+          "description": "令牌过期时间（分钟）"
+        },
+        "max_role_switches": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 10,
+          "description": "最大角色切换次数"
+        },
+        "context_summary_threshold": {
+          "type": "integer",
+          "minimum": 100,
+          "default": 1000,
+          "description": "上下文摘要阈值（token 数）"
+        }
+      }
+    },
+
+    "security": {
+      "type": "object",
+      "description": "安全配置",
+      "properties": {
+        "enable_signature_validation": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用签名验证"
+        },
+        "timestamp_tolerance_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 300,
+          "description": "时间戳容错（秒）"
+        },
+        "enable_rate_limiting": {
+          "type": "boolean",
+          "default": false,
+          "description": "启用速率限制"
+        }
+      }
+    },
+
+    "monitoring": {
+      "type": "object",
+      "description": "监控配置",
+      "properties": {
+        "enable_metrics": {
+          "type": "boolean",
+          "default": true,
+          "description": "启用指标收集"
+        },
+        "enable_tracing": {
+          "type": "boolean",
+          "default": false,
+          "description": "启用链路追踪"
+        },
+        "log_conversation_samples": {
+          "type": "boolean",
+          "default": false,
+          "description": "记录对话样本（调试用）"
+        }
+      }
+    }
+  }
+}
